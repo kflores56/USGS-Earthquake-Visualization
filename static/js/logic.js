@@ -11,6 +11,7 @@ var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.g
 
 // define array
 var eqMarkers = [];
+var coordinates = []
 
 // loop through locations to create marker
 for (var i = 0; i < link.length; i++) {
