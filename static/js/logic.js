@@ -2,28 +2,49 @@
 
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
-// // function to determine marker color (magnitude) 
-// // function chooseColor()
+// functions for marker color (depth) & size (magnitude)
 
-// // function to determine marker size (depth)
+function getColor(d) {
+  return d > 15 ? '#F30' :
+  d > 12  ? '#F60' :
+  d > 9  ? '#F90' :
+  d > 6  ? '#FC0' :
+  d > 3   ? '#FF0' :
+            '#9F3';
+}
+
+function getRadius(value){
+  return value*30000
+}
+
 
 // Perform a GET request to the query URL
-d3.json(queryUrl).then(function(data) {
+var data = d3.json(queryUrl).then(function(data) {
   // Once we get a response, send the data.features object to the createFeatures function
   createFeatures(data.features);
 });
 
-// CREATE POP UP FOR MARKERS
+// CREATE FEATURES FOR MARKERS
 
 function createFeatures(earthquakeData) {
-  
-  function onEachFeature(feature, layer) {
-    layer.bindPopup("<h3>" + feature.properties.place +
-      "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
-  }
 
   var earthquakes = L.geoJSON(earthquakeData, {
-  onEachFeature: onEachFeature
+    onEachFeature: function (feature, layer) {
+      layer.bindPopup("<h3>" + feature.properties.place +
+        "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+  },
+
+    pointToLayer: function (feature, latlng) {
+      return new L.circle(latlng,
+        {radius: getRadius(feature.properties.mag),
+          fillColor: getColor(feature.geometry.coordinates[2]),
+          fillOpacity: 1,
+          stroke: true,
+          color: "black",
+          weight: .5
+      })
+    }
+
   });
 
   createMap(earthquakes);
@@ -68,9 +89,9 @@ function createMap(earthquakes) {
 
   // baseMaps object
   var baseMaps = {
-    "Street Map": streetmap,
     "Dark Map": darkmap,
     "Satellite Map": satellitemap,
+    "Street Map": streetmap,
     "Light Map": lightmap
   };
 
@@ -83,11 +104,9 @@ function createMap(earthquakes) {
 
   // Define a map object
   var myMap = L.map("map", {
-    center: [
-      37.09, -95.71
-    ],
-    zoom: 3,
-    layers: [streetmap, earthquakes]
+    center: [37.09, -95.71],
+    zoom: 5,
+    layers: [darkmap, earthquakes]
   });
 
   // Pass map layers into layer control
