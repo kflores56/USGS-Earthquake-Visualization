@@ -7,23 +7,23 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 
 // // function to determine marker size (depth)
 
-// grab geoJSON data & bind pop-up information
-
 // Perform a GET request to the query URL
 d3.json(queryUrl).then(function(data) {
   // Once we get a response, send the data.features object to the createFeatures function
   createFeatures(data.features);
 });
 
+// CREATE POP UP FOR MARKERS
+
 function createFeatures(earthquakeData) {
   
   function onEachFeature(feature, layer) {
-    layer.bindPopup("<h3> Location: " + feature.properties.place + 
-      "</h3><h3> Magnitude: " + feature.properties.mag + "</h3>");
+    layer.bindPopup("<h3>" + feature.properties.place +
+      "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
   }
 
   var earthquakes = L.geoJSON(earthquakeData, {
-    onEachFeature: onEachFeature
+  onEachFeature: onEachFeature
   });
 
   createMap(earthquakes);
@@ -69,24 +69,25 @@ function createMap(earthquakes) {
   // baseMaps object
   var baseMaps = {
     "Street Map": streetmap,
-    "Dark Map" : darkmap,
+    "Dark Map": darkmap,
     "Satellite Map": satellitemap,
-    "Light Map": lightmap,
-    
+    "Light Map": lightmap
   };
 
   // overlay object
   var overlayMaps = {
-    Earthquakes : earthquakes
+    Earthquakes: earthquakes
   };
 
   //// CREATE MAP ////
 
   // Define a map object
-  var myMap = L.map("mapid", {
-    center: [0, 0],
-    zoom: 3, 
-    layers: [satellitemap, earthquakes]
+  var myMap = L.map("map", {
+    center: [
+      37.09, -95.71
+    ],
+    zoom: 3,
+    layers: [streetmap, earthquakes]
   });
 
   // Pass map layers into layer control
