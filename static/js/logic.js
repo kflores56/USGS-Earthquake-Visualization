@@ -1,11 +1,13 @@
-//// CREATE LOCATION MARKERS ////
+/// SET UP VARIABLES ////
 
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+var plates = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+
+//// CREATE LOCATION MARKERS & FEATURES ////
 
 // functions for marker color (depth) & size (magnitude)
-
 function getColor(d) {
-  return d > 15 ? '#cc4650' :
+  return d > 15 ? '#d93240' :
   d > 12  ? '#ff5865' :
   d > 9  ? '#ff7a72' :
   d > 6  ? '#ffa56a' :
@@ -17,14 +19,13 @@ function getRadius(value){
   return value*15000
 }
 
-
 // Perform a GET request to the query URL
 var data = d3.json(queryUrl).then(function(data) {
   // Once we get a response, send the data.features object to the createFeatures function
   createFeatures(data.features);
 });
 
-// CREATE FEATURES FOR MARKERS
+// create feature function
 
 function createFeatures(earthquakeData) {
 
@@ -49,6 +50,8 @@ function createFeatures(earthquakeData) {
 
   createMap(earthquakes);
 }
+
+
 
 //// CREATE MAP FUNCTION ////
 
@@ -97,7 +100,8 @@ function createMap(earthquakes) {
 
   // overlay object
   var overlayMaps = {
-    Earthquakes: earthquakes
+    Earthquakes: earthquakes,
+    "Tectonic Plates": tectonicPlates
   };
 
   //// CREATE MAP ////
@@ -105,8 +109,8 @@ function createMap(earthquakes) {
   // Define a map object
   var myMap = L.map("map", {
     center: [38, -100],
-    zoom: 5,
-    layers: [lightmap, earthquakes]
+    zoom: 4,
+    layers: [lightmap, earthquakes, tectonicPlates]
   });
 
   // Pass map layers into layer control
@@ -114,5 +118,45 @@ function createMap(earthquakes) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(myMap);
+
+  //// CREATE TECHNOIC PLATE LAYER ////
+
+  var tectonicPlates = new L.LayerGroup();
+
+  d3.json(plates.then(function(plateData) {
+  
+  tectonicPlates = L.geoJson(plateData, {
+    color: "orange",
+    weight: 10
+  })
+  .addTo(myMap);
+}));
+
+// Set up the legend
+var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function() {
+      var div = L.DomUtil.create("div", "info legend"), 
+        grades = [0, 1, 2, 3, 4, 5],
+        labels = [];
+
+      // Add min & max
+      var legendInfo = "<h1>Earthquake Depth</h1>" +
+        "<div class=\"labels\">" +
+          "<div class=\"min\">" + grades[0] + "</div>" +
+          "<div class=\"max\">" + grades[grades.length - 1] + "</div>" +
+        "</div>";
+  
+      div.innerHTML = legendInfo;
+  
+      limits.forEach(function(limit, index) {
+        labels.push("<li style=\"background-color: " + getColor[grades] + "\"></li>");
+      });
+  
+      div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+      return div;
+    };
+  
+    // Adding legend to the map
+    legend.addTo(myMap);
 }
 
