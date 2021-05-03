@@ -5,16 +5,16 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 // functions for marker color (depth) & size (magnitude)
 
 function getColor(d) {
-  return d > 15 ? '#F30' :
-  d > 12  ? '#F60' :
-  d > 9  ? '#F90' :
-  d > 6  ? '#FC0' :
-  d > 3   ? '#FF0' :
-            '#9F3';
+  return d > 15 ? '#cc4650' :
+  d > 12  ? '#ff5865' :
+  d > 9  ? '#ff7a72' :
+  d > 6  ? '#ffa56a' :
+  d > 3   ? '#bbdc86' :
+            '#6dd5ae';
 }
 
 function getRadius(value){
-  return value*30000
+  return value*15000
 }
 
 
@@ -89,10 +89,10 @@ function createMap(earthquakes) {
 
   // baseMaps object
   var baseMaps = {
-    "Dark Map": darkmap,
-    "Satellite Map": satellitemap,
+    "Light Map": lightmap,
     "Street Map": streetmap,
-    "Light Map": lightmap
+    "Satellite Map": satellitemap,
+    "Dark Map": darkmap,
   };
 
   // overlay object
@@ -104,9 +104,9 @@ function createMap(earthquakes) {
 
   // Define a map object
   var myMap = L.map("map", {
-    center: [37.09, -95.71],
+    center: [38, -100],
     zoom: 5,
-    layers: [darkmap, earthquakes]
+    layers: [lightmap, earthquakes]
   });
 
   // Pass map layers into layer control
