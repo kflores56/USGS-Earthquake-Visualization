@@ -109,7 +109,7 @@ function createMap(earthquakes) {
 
   // Define a map object
   var myMap = L.map("map", {
-    center: [38, -100],
+    center: [52, -130],
     zoom: 4,
     layers: [lightmap, tectonicPlates, earthquakes]
   });
@@ -131,14 +131,13 @@ function createMap(earthquakes) {
     .addTo(tectonicPlates);
   });
   
-  // Set up the legend
-  var legend = L.control({ position: "bottomright" });
+  //// CREATE LEGEND ////
+
+  var legend = L.control({ position: "bottomright"});
     legend.onAdd = function() {
 
       var div = L.DomUtil.create("div", "info legend"); 
-      grades = [0, 3, 6, 9, 12, 15],
-      labels = ['Earthquake'],
-      text = ["Earthquake"];
+      grades = [0, 3, 6, 9, 12, 15];
 
       for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
