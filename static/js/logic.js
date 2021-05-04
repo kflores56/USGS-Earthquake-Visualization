@@ -111,7 +111,7 @@ function createMap(earthquakes) {
   var myMap = L.map("map", {
     center: [38, -100],
     zoom: 4,
-    layers: [lightmap, earthquakes, tectonicPlates]
+    layers: [lightmap, tectonicPlates, earthquakes]
   });
 
   // Pass map layers into layer control
@@ -131,28 +131,38 @@ function createMap(earthquakes) {
     .addTo(tectonicPlates);
   });
   
+  // Set up the legend
+  var legend = L.control({ position: "bottomright" });
+    legend.onAdd = function() {
 
-// Set up the legend
-var legend = L.control({ position: "bottomright" });
-  legend.onAdd = function() {
-      var div = L.DomUtil.create("div", "info legend"), 
-        grades = [0, 1, 2, 3, 4, 5],
-        labels = [];
+      var div = L.DomUtil.create("div", "info legend"); 
+      // labels = ["<h1>Earthquake Depths</h1>"]
+      // categories = ["0 - 2.99", "3 - 5.99", "6 - 8.99", "9 - 11.99", "12 - 14.99", "15 or more"];
+      grades = [0, 3, 6, 9, 12, 15],
+      labels = [];
+      
+      for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+        // labels.push(
+          '<i class="circle" style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+        }
+        // div.innerHTML = labels.join('<br>');
 
-      // Add min & max
-      var legendInfo = "<h1>Earthquake Depth</h1>" +
-        "<div class=\"labels\">" +
-          "<div class=\"min\">" + grades[0] + "</div>" +
-          "<div class=\"max\">" + grades[grades.length - 1] + "</div>" +
-        "</div>";
+      // // Add min & max
+      // var legendInfo = "<h1>Earthquake Depths</h1>" +
+      //   "<div class=\"labels\">" +
+      //     "<div class=\"min\">" + limits[0] + "</div>" +
+      //     "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+      //   "</div>";
   
-      div.innerHTML = legendInfo;
+      // div.innerHTML = legendInfo;
   
-      limits.forEach(function(limit, index) {
-        labels.push("<li style=\"background-color: " + getColor[grades] + "\"></li>");
-      });
+      // limits.forEach(function(grades, index) {
+      //   labels.push("<li style=\"background-color: " + getColor[index] + "\"></li>");
+      // });
   
-      div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+      // div.innerHTML += "<ul>" + labels.join("") + "</ul>";
       return div;
     };
   
