@@ -51,7 +51,8 @@ function createFeatures(earthquakeData) {
   createMap(earthquakes);
 }
 
-
+ // create var for plate layer
+  var tectonicPlates = new L.LayerGroup();
 
 //// CREATE MAP FUNCTION ////
 
@@ -118,19 +119,18 @@ function createMap(earthquakes) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(myMap);
-
+ 
   //// CREATE TECHNOIC PLATE LAYER ////
 
-  var tectonicPlates = new L.LayerGroup();
-
-  d3.json(plates.then(function(plateData) {
+  d3.json(plates).then(function(plateData) {
   
-  tectonicPlates = L.geoJson(plateData, {
-    color: "orange",
-    weight: 10
-  })
-  .addTo(myMap);
-}));
+    tectonicPlates = L.geoJson(plateData, {
+      color: "orange",
+      weight: 2
+    })
+    .addTo(tectonicPlates);
+  });
+  
 
 // Set up the legend
 var legend = L.control({ position: "bottomright" });
