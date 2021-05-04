@@ -125,7 +125,7 @@ function createMap(earthquakes) {
   d3.json(plates).then(function(plateData) {
   
     tectonicPlates = L.geoJson(plateData, {
-      color: "orange",
+      color: "#9370db",
       weight: 2
     })
     .addTo(tectonicPlates);
@@ -136,33 +136,23 @@ function createMap(earthquakes) {
     legend.onAdd = function() {
 
       var div = L.DomUtil.create("div", "info legend"); 
-      // labels = ["<h1>Earthquake Depths</h1>"]
-      // categories = ["0 - 2.99", "3 - 5.99", "6 - 8.99", "9 - 11.99", "12 - 14.99", "15 or more"];
-      grades = [0, 3, 6, 9, 12, 15],
-      labels = [];
-      
+      grades = [0, 3, 6, 9, 12, 15];
+      // labels = []
+      var colors = [
+        '#d93240',
+        '#ff5865',
+        '#ff7a72',
+        '#ffa56a',
+        '#bbdc86',
+        '#6dd5ae'
+      ]; 
+
       for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-        // labels.push(
-          '<i class="circle" style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+          '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
           grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
         }
-        // div.innerHTML = labels.join('<br>');
 
-      // // Add min & max
-      // var legendInfo = "<h1>Earthquake Depths</h1>" +
-      //   "<div class=\"labels\">" +
-      //     "<div class=\"min\">" + limits[0] + "</div>" +
-      //     "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-      //   "</div>";
-  
-      // div.innerHTML = legendInfo;
-  
-      // limits.forEach(function(grades, index) {
-      //   labels.push("<li style=\"background-color: " + getColor[index] + "\"></li>");
-      // });
-  
-      // div.innerHTML += "<ul>" + labels.join("") + "</ul>";
       return div;
     };
   
