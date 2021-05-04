@@ -30,7 +30,7 @@ Leaflet was used to plot all of the earthquakes from the selected data set based
 
 To add more context to this map a tectonic plate layers was also visualized. 
 
-The data was collected from a public GitHub at [https://github.com/fraxen/tectonicplates](https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json)
+* The data was collected from a public GitHub at [https://github.com/fraxen/tectonicplates](https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json).
 
 ![3-full_view](images/3-full_view.png)
 
