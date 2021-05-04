@@ -12,9 +12,8 @@ The USGS is interested in building a new set of tools that will allow them to vi
 
 The first task completed was a visualization of an earthquake data set.
 
-The USGS provides earthquake data in a number of different formats, updated every 5 minutes at [USGS GeoJSON Feed](http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php).
-
-The dataset used for this map is called 'All Earthquakes from the Past 7 Days'. The URL of this JSON pulled in the data for the visualization.
+* The USGS provides earthquake data in a number of different formats, updated every 5 minutes at [USGS GeoJSON Feed](http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php).
+* The dataset used for this map is called 'All Earthquakes from the Past 7 Days'. The URL of this JSON pulled in the data for the visualization.
 
 
 ### Level 2: Import & Visualize the Data
