@@ -136,20 +136,13 @@ function createMap(earthquakes) {
     legend.onAdd = function() {
 
       var div = L.DomUtil.create("div", "info legend"); 
-      grades = [0, 3, 6, 9, 12, 15];
-      // labels = []
-      var colors = [
-        '#d93240',
-        '#ff5865',
-        '#ff7a72',
-        '#ffa56a',
-        '#bbdc86',
-        '#6dd5ae'
-      ]; 
+      grades = [0, 3, 6, 9, 12, 15],
+      labels = ['Earthquake'],
+      text = ["Earthquake"];
 
       for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-          '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+          '<i style="background: ' + getColor(grades[i] + 1) + '"></i> ' +
           grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
         }
 
