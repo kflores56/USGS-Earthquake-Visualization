@@ -47,3 +47,6 @@ Once all map data was uploaded and complete, legend details were included along 
 * The legend provides context for your map data.
 
 ![5-labels](images/5-labels.png)
+
+
+[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](mailto:kristin.flores56@gmail.com)
